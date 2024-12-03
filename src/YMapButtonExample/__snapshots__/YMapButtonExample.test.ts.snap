@@ -1,0 +1,142 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`YMap smoke test should make map 1`] = `
+{
+  "attributes": {
+    "class": "ymaps3x0--map-container",
+  },
+  "children": [
+    {
+      "attributes": {
+        "class": "ymaps3x0--map",
+        "style": "width: 643px; height: 856px;",
+      },
+      "children": [
+        {
+          "attributes": {
+            "class": "ymaps3x0--main-engine-container",
+          },
+          "children": [
+            {
+              "attributes": {},
+              "children": [
+                {
+                  "attributes": {
+                    "class": "ymaps3x0--layer ymaps3x0--tile-layer",
+                    "style": "perspective: 1597.3177456394797px; opacity: 1;",
+                  },
+                  "children": [
+                    {
+                      "attributes": {
+                        "class": "ymaps3x0--tile-layer__container",
+                        "data-z": "9",
+                        "style": "transform: 
+            rotateX(0.00000rad)
+            translate3d(0px, 0px, 0px)
+            rotateZ(0.00000rad) translate3d(0px, 0px, 0px)
+        ;",
+                      },
+                      "nodeName": "ymaps",
+                    },
+                  ],
+                  "nodeName": "ymaps",
+                },
+              ],
+              "nodeName": "ymaps",
+            },
+          ],
+          "nodeName": "ymaps",
+        },
+        {
+          "attributes": {
+            "class": "ymaps3x0--top-engine-container",
+          },
+          "children": [
+            {
+              "attributes": {},
+              "nodeName": "ymaps",
+            },
+          ],
+          "nodeName": "ymaps",
+        },
+      ],
+      "nodeName": "ymaps",
+    },
+    {
+      "attributes": {
+        "class": "ymaps3x0--controls ymaps3x0--controls_bottom ymaps3x0--controls_center ymaps3x0--controls_horizontal",
+      },
+      "children": [
+        {
+          "attributes": {
+            "class": "ymaps3x0--control ymaps3x0--control__background",
+          },
+          "children": [
+            {
+              "attributes": {
+                "class": "ymaps3x0--button ymaps3x0--control-button",
+                "type": "button",
+              },
+              "children": [
+                "Some text",
+              ],
+              "nodeName": "button",
+            },
+          ],
+          "nodeName": "ymaps",
+        },
+      ],
+      "nodeName": "ymaps",
+    },
+    {
+      "attributes": {
+        "class": "ymaps3x0--map-copyrights ymaps3x0--map-copyrights_bottom ymaps3x0--map-copyrights_right",
+      },
+      "children": [
+        {
+          "attributes": {
+            "class": "ymaps3x0--map-copyrights__container",
+          },
+          "children": [
+            {
+              "attributes": {
+                "class": "ymaps3x0--map-copyrights__text",
+                "title": "",
+              },
+              "nodeName": "ymaps",
+            },
+            {
+              "attributes": {
+                "class": "ymaps3x0--map-copyrights__user-agreements",
+                "href": "https://yandex.com/legal/maps_termsofuse/?lang=en_US",
+                "target": "_blank",
+              },
+              "children": [
+                "User Agreement",
+              ],
+              "nodeName": "a",
+            },
+          ],
+          "nodeName": "ymaps",
+        },
+        {
+          "attributes": {
+            "class": "ymaps3x0--map-copyrights__logo ymaps3x0--icon-logo-en-black",
+            "style": "width: 46px; height: 20px;",
+          },
+          "nodeName": "ymaps",
+        },
+        {
+          "attributes": {
+            "class": "ymaps3x0--map-copyrights__scale",
+            "style": "bottom: 36px;",
+          },
+          "nodeName": "ymaps",
+        },
+      ],
+      "nodeName": "ymaps",
+    },
+  ],
+  "nodeName": "ymaps",
+}
+`;

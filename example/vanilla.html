@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Vanilla example ymaps3-context-menu</title>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+        <script src="https://api-maps.yandex.ru/v3/?apikey=%APIKEY%&lang=en_US"></script>
+        <script src="common.js"></script>
+        <script>
+            window.map = null;
+
+            main();
+            async function main() {
+                await ymaps3.ready;
+                const {YMap, YMapDefaultSchemeLayer, YMapDefaultFeaturesLayer, YMapControls} = ymaps3;
+
+                const {YMapZoomControl} = await ymaps3.import('@yandex/ymaps3-controls@0.0.1');
+                const {YMapButtonExample} = await ymaps3.import('ymaps3-context-menu');
+
+                map = new YMap(document.getElementById('app'), {location: LOCATION});
+
+                map.addChild(new YMapDefaultSchemeLayer());
+                map.addChild((defaultFeatures = new YMapDefaultFeaturesLayer()));
+
+                map.addChild(
+                    new YMapControls({position: 'right'})
+                        .addChild(new YMapZoomControl({}))
+                        .addChild(new YMapButtonExample({text: 'My button', onClick: () => alert('Click!')}))
+                );
+            }
+        </script>
+
+        <link rel="stylesheet" href="common.css" />
+    </head>
+    <body>
+        <div id="app"></div>
+    </body>
+</html>
