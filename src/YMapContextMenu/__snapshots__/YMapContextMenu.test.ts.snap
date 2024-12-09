@@ -64,29 +64,10 @@ exports[`YMap smoke test should make map 1`] = `
     },
     {
       "attributes": {
-        "class": "ymaps3x0--controls ymaps3x0--controls_bottom ymaps3x0--controls_center ymaps3x0--controls_horizontal",
+        "class": "ymaps3--context-menu",
+        "style": "width: 290px;",
       },
-      "children": [
-        {
-          "attributes": {
-            "class": "ymaps3x0--control ymaps3x0--control__background",
-          },
-          "children": [
-            {
-              "attributes": {
-                "class": "ymaps3x0--button ymaps3x0--control-button",
-                "type": "button",
-              },
-              "children": [
-                "Some text",
-              ],
-              "nodeName": "button",
-            },
-          ],
-          "nodeName": "ymaps",
-        },
-      ],
-      "nodeName": "ymaps",
+      "nodeName": "div",
     },
     {
       "attributes": {

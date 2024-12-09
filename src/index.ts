@@ -1,2 +1,2 @@
-export * from './YMapButtonExample/YMapButtonExample';
 export * from './types';
+export * from './YMapContextMenu/YMapContextMenu';
