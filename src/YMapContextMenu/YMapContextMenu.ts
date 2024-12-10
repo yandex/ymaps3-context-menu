@@ -1,4 +1,3 @@
-import type {YMapEntity} from '@yandex/ymaps3-types';
 import './index.css';
 
 type VerticalPosition = 'top' | 'bottom';
@@ -10,21 +9,13 @@ type Position =
     | `${HorizontalPosition} ${VerticalPosition}`;
 
 export interface YMapContextMenuProps {
-    /**
-     * Показывает или скрывает контекстное меню.
-     */
+    /** Показывает или скрывает контекстное меню. */
     visible: boolean;
-    /**
-     * Координаты экрана, в которых должно отображаться контекстное меню.
-     */
+    /** Координаты экрана, в которых должно отображаться контекстное меню. */
     screenCoordinates: [number, number];
-    /**
-     * Ширина контекстного меню в пикселях (по умолчанию 240px).
-     */
+    /** Ширина контекстного меню в пикселях (по умолчанию 240px). */
     width?: number;
-    /**
-     * Позиция контекстного меню относительно указателя (по умолчанию позиция bottom right).
-     */
+    /** Позиция контекстного меню относительно указателя (по умолчанию позиция bottom right). */
     position?: Position;
 }
 
@@ -39,13 +30,14 @@ type DefaultMenuProps = typeof defaultMenuProps;
 
 export class YMapContextMenu extends ymaps3.YMapGroupEntity<YMapContextMenuProps, DefaultMenuProps> {
     static defaultProps = defaultMenuProps;
+    static [ymaps3.optionsKeyVuefy] = {props: ['visible', 'screenCoordinates', 'width', 'position']};
 
     private _element?: HTMLHeadingElement;
     private _container?: HTMLDivElement = document.createElement('div');
     private _detachDom?: () => void;
 
     constructor(props: YMapContextMenuProps) {
-        super(props);
+        super(props, {container: true});
     }
 
     private _createElement() {
@@ -62,16 +54,6 @@ export class YMapContextMenu extends ymaps3.YMapGroupEntity<YMapContextMenuProps
     protected _onAttach() {
         this._createElement();
         this._detachDom = ymaps3.useDomContext(this, this._element, this._container);
-    }
-
-    addChild(child: YMapEntity<HTMLDivElement>) {
-        this._addDirectChild(child);
-        return this;
-    }
-
-    removeChild(child: YMapEntity<HTMLDivElement>) {
-        this._removeDirectChild(child);
-        return this;
     }
 
     private _getPositionCoordinates(screenCoordinates: [number, number], position: Position, x: number, y: number) {
@@ -194,6 +176,11 @@ type DefaultMenuItemProps = typeof defaultMenuProps;
 
 export class YMapContextMenuItem extends ymaps3.YMapEntity<YMapContextMenuItemProps, DefaultMenuItemProps> {
     static defaultProps = defaultMenuItemProps;
+    static [ymaps3.optionsKeyVuefy] = {props: ['visible', 'text', 'iconPosition', 'onClick', 'disabled', 'order']};
+
+    constructor(props: YMapContextMenuItemProps) {
+        super(props);
+    }
 
     private _element?: HTMLButtonElement;
     private _container?: HTMLDivElement = document.createElement('div');
