@@ -44,7 +44,10 @@ export class YMapContextMenu extends ymaps3.YMapGroupEntity<YMapContextMenuProps
         const contextMenuHtmlElement = document.createElement('div');
         contextMenuHtmlElement.classList.add('ymaps3--context-menu');
         contextMenuHtmlElement.style.width = `${this._props.width}px`;
+        console.log('this.children', this.children);
+
         for (const child of this.children) {
+            console.log('this.child', child);
             contextMenuHtmlElement.appendChild((child as unknown as {_container: HTMLDivElement})._container);
         }
         this._element = contextMenuHtmlElement;
