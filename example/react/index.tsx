@@ -1,4 +1,4 @@
-import {BehaviorMapEventHandler, DomEventHandler, LngLat} from '@yandex/ymaps3-types';
+import type {BehaviorMapEventHandler, DomEventHandler, LngLat} from '@yandex/ymaps3-types';
 import {LOCATION} from '../common';
 
 window.map = null;
@@ -66,7 +66,7 @@ async function main() {
                 <YMapContextMenu visible={visibleContextMenu} screenCoordinates={screenCoordinates}>
                     <YMapContextMenuItem text="Zoom in" visible={true} onClick={zoomIn} />
                     <YMapContextMenuItem text="Zoom out" visible={true} onClick={zoomOut} />
-                    <YMapContextMenuItem text="Center by it" visible={true} onClick={centerByIt} />
+                    <YMapContextMenuItem text="Center by it" visible={true} onClick={centerByIt} disabled />
                     <YMapContextMenuItem
                         text="Пункт для маркера"
                         visible={visibleMarkerItem}

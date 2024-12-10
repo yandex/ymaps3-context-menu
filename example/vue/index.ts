@@ -1,3 +1,4 @@
+import type {BehaviorMapEventHandler, DomEventHandler, LngLat} from '@yandex/ymaps3-types';
 import {LOCATION} from '../common';
 
 window.map = null;
@@ -7,32 +8,99 @@ async function main() {
     const [ymaps3Vue] = await Promise.all([ymaps3.import('@yandex/ymaps3-vuefy'), ymaps3.ready]);
     const vuefy = ymaps3Vue.vuefy.bindTo(Vue);
 
-    const {YMap, YMapDefaultSchemeLayer, YMapDefaultFeaturesLayer, YMapControls} = vuefy.module(ymaps3);
+    const {YMap, YMapDefaultSchemeLayer, YMapDefaultFeaturesLayer, YMapListener} = vuefy.module(ymaps3);
 
-    const {YMapButtonExample} = vuefy.module(await ymaps3.import('ymaps3-context-menu'));
+    const {YMapContextMenu, YMapContextMenuItem} = vuefy.module(await ymaps3.import('ymaps3-context-menu'));
 
     const app = Vue.createApp({
         components: {
             YMap,
             YMapDefaultSchemeLayer,
             YMapDefaultFeaturesLayer,
-            YMapControls,
-            YMapButtonExample
+            YMapListener,
+            YMapContextMenu,
+            YMapContextMenuItem
         },
         setup() {
             const refMap = (ref) => {
                 window.map = ref?.entity;
             };
-            const onClick = () => alert('Click!');
-            return {LOCATION, refMap, onClick};
+            const location = Vue.ref(LOCATION);
+            const visibleContextMenu = Vue.ref(false);
+            const visibleMarkerItem = Vue.ref(false);
+            const screenCoordinates = Vue.ref<[number, number]>();
+            const contextMenuLngLat = Vue.ref<LngLat>();
+
+            const onContextMenu: DomEventHandler = (object, event) => {
+                if (object && object.entity instanceof ymaps3.YMapMarker) {
+                    visibleMarkerItem.value = true;
+                } else {
+                    visibleMarkerItem.value = false;
+                }
+
+                contextMenuLngLat.value = event.coordinates;
+                visibleContextMenu.value = true;
+                screenCoordinates.value = event.screenCoordinates;
+            };
+
+            const onActionStart: BehaviorMapEventHandler = () => {
+                visibleContextMenu.value = false;
+            };
+
+            const zoomIn = () => {
+                location.value = {zoom: 13, duration: 2000, easing: 'ease-in-out'};
+                visibleContextMenu.value = false;
+            };
+
+            const zoomOut = () => {
+                location.value = {zoom: 8, duration: 2000, easing: 'ease-in-out'};
+                visibleContextMenu.value = false;
+            };
+
+            const centerByIt = () => {
+                location.value = {center: contextMenuLngLat.value, duration: 2000, easing: 'ease-in-out'};
+                visibleContextMenu.value = false;
+            };
+
+            const clickOnMarker = () => {
+                visibleContextMenu.value = false;
+                alert('click on marker!');
+            };
+
+            return {
+                location,
+                visibleContextMenu,
+                refMap,
+                visibleMarkerItem,
+                screenCoordinates,
+                contextMenuLngLat,
+                clickOnMarker,
+                centerByIt,
+                zoomOut,
+                zoomIn,
+                onActionStart,
+                onContextMenu
+            };
         },
         template: `
-            <YMap :location="LOCATION" :ref="refMap">
+            <YMap :location="location" :ref="refMap">
                 <YMapDefaultSchemeLayer />
+
                 <YMapDefaultFeaturesLayer />
-                <YMapControls position="right">
-                    <YMapButtonExample text="My button" :onClick="onClick" />
-                </YMapControls>
+
+                <YMapContextMenu :visible="visibleContextMenu" :screenCoordinates="screenCoordinates">
+                    <YMapContextMenuItem text="Zoom in" :visible="true" :onClick="zoomIn" />
+                    <YMapContextMenuItem text="Zoom out" :visible="true" :onClick="zoomOut" />
+                    <YMapContextMenuItem text="Center by it" :visible="true" :onClick="centerByIt" :disabled="true" />
+                    <YMapContextMenuItem
+                        text="Пункт для маркера"
+                        :visible="visibleMarkerItem"
+                        :order="1"
+                        :onClick="clickOnMarker"
+                    />
+                </YMapContextMenu>
+
+                <YMapListener :onContextMenu="onContextMenu" :onActionStart="onActionStart" />
             </YMap>`
     });
     app.mount('#app');

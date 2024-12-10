@@ -242,12 +242,6 @@ export class YMapContextMenuItem extends ymaps3.YMapEntity<YMapContextMenuItemPr
     }
 
     protected _onUpdate(props: Partial<YMapContextMenuItemProps>): void {
-        if (props.visible) {
-            this._element.classList.add('ymaps3--context-menu-item_visible');
-        } else {
-            this._element.classList.remove('ymaps3--context-menu-item_visible');
-        }
-
         if (props.disabled !== undefined) {
             this._element.disabled = props.disabled;
         }
