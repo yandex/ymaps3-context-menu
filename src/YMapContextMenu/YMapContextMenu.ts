@@ -1,3 +1,5 @@
+import {YMapControl} from '@yandex/ymaps3-types';
+import {CustomVuefyOptions} from '@yandex/ymaps3-types/modules/vuefy';
 import './index.css';
 
 type VerticalPosition = 'top' | 'bottom';
@@ -29,34 +31,23 @@ const defaultMenuProps: YMapContextMenuProps = Object.freeze({
 type DefaultMenuProps = typeof defaultMenuProps;
 
 export class YMapContextMenu extends ymaps3.YMapGroupEntity<YMapContextMenuProps, DefaultMenuProps> {
+    static [ymaps3.optionsKeyVuefy]: CustomVuefyOptions<YMapContextMenu>;
     static defaultProps = defaultMenuProps;
-    static [ymaps3.optionsKeyVuefy] = {props: ['visible', 'screenCoordinates', 'width', 'position']};
 
-    private _element?: HTMLHeadingElement;
-    private _container?: HTMLDivElement = document.createElement('div');
-    private _detachDom?: () => void;
+    private _control: YMapControl;
+    private _element: HTMLDivElement;
 
     constructor(props: YMapContextMenuProps) {
         super(props, {container: true});
     }
 
-    private _createElement() {
-        const contextMenuHtmlElement = document.createElement('div');
-        contextMenuHtmlElement.classList.add('ymaps3--context-menu');
-        contextMenuHtmlElement.style.width = `${this._props.width}px`;
-        console.log('this.children', this.children);
-
-        for (const child of this.children) {
-            console.log('this.child', child);
-            contextMenuHtmlElement.appendChild((child as unknown as {_container: HTMLDivElement})._container);
-        }
-        this._element = contextMenuHtmlElement;
-        this._container.appendChild(this._element);
-    }
-
     protected _onAttach() {
-        this._createElement();
-        this._detachDom = ymaps3.useDomContext(this, this._element, this._container);
+        this._element = document.createElement('div');
+        this._element.classList.add('ymaps3--context-menu');
+        this._element.style.width = `${this._props.width}px`;
+
+        this._control = new ymaps3.YMapControl({transparent: true}, this._element);
+        this.addChild(this._control);
     }
 
     private _getPositionCoordinates(screenCoordinates: [number, number], position: Position, x: number, y: number) {
@@ -128,10 +119,7 @@ export class YMapContextMenu extends ymaps3.YMapGroupEntity<YMapContextMenuProps
     }
 
     protected _onDetach() {
-        this._detachDom?.();
-        this._detachDom = undefined;
-        this._element = undefined;
-        this._container = undefined;
+        this.removeChild(this._control);
     }
 }
 
@@ -177,17 +165,12 @@ const defaultMenuItemProps: YMapContextMenuItemProps = Object.freeze({
 
 type DefaultMenuItemProps = typeof defaultMenuProps;
 
-export class YMapContextMenuItem extends ymaps3.YMapEntity<YMapContextMenuItemProps, DefaultMenuItemProps> {
+export class YMapContextMenuItem extends ymaps3.YMapComplexEntity<YMapContextMenuItemProps, DefaultMenuItemProps> {
+    static [ymaps3.optionsKeyVuefy]: CustomVuefyOptions<YMapContextMenuItem>;
     static defaultProps = defaultMenuItemProps;
-    static [ymaps3.optionsKeyVuefy] = {props: ['visible', 'text', 'iconPosition', 'onClick', 'disabled', 'order']};
 
-    constructor(props: YMapContextMenuItemProps) {
-        super(props);
-    }
-
-    private _element?: HTMLButtonElement;
-    private _container?: HTMLDivElement = document.createElement('div');
-    private _detachDom: () => void;
+    public _element: HTMLButtonElement;
+    private _detachDom?: () => void;
 
     private _createElement() {
         const contextMenuItemHtmlElement = document.createElement('button');
@@ -227,8 +210,7 @@ export class YMapContextMenuItem extends ymaps3.YMapEntity<YMapContextMenuItemPr
             contextMenuItemHtmlElement.innerText = this._props.text;
         }
 
-        this._element = contextMenuItemHtmlElement;
-        this._container.appendChild(this._element);
+        return contextMenuItemHtmlElement;
     }
 
     protected _onUpdate(props: Partial<YMapContextMenuItemProps>): void {
@@ -238,14 +220,13 @@ export class YMapContextMenuItem extends ymaps3.YMapEntity<YMapContextMenuItemPr
     }
 
     protected _onAttach() {
-        this._createElement();
-        this._detachDom = ymaps3.useDomContext(this.root, this._element, this._container);
+        this._element = this._createElement();
+        this._detachDom = ymaps3.useDomContext(this, this._element, null);
     }
 
     protected _onDetach() {
-        this._detachDom();
+        this._detachDom?.();
         this._detachDom = null;
         this._element = null;
-        this._container = undefined;
     }
 }
