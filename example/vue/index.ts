@@ -1,5 +1,5 @@
 import type {BehaviorMapEventHandler, DomEventHandler, LngLat} from '@yandex/ymaps3-types';
-import {LOCATION} from '../common';
+import {LOCATION, MARKER_LOCATION} from '../common';
 
 window.map = null;
 
@@ -11,6 +11,7 @@ async function main() {
     const {YMap, YMapDefaultSchemeLayer, YMapDefaultFeaturesLayer, YMapListener} = vuefy.module(ymaps3);
 
     const {YMapContextMenu, YMapContextMenuItem} = vuefy.module(await ymaps3.import('ymaps3-context-menu'));
+    const {YMapDefaultMarker} = vuefy.module(await ymaps3.import('@yandex/ymaps3-default-ui-theme'));
 
     const app = Vue.createApp({
         components: {
@@ -19,7 +20,8 @@ async function main() {
             YMapDefaultFeaturesLayer,
             YMapListener,
             YMapContextMenu,
-            YMapContextMenuItem
+            YMapContextMenuItem,
+            YMapDefaultMarker
         },
         setup() {
             const refMap = (ref) => {
@@ -48,12 +50,20 @@ async function main() {
             };
 
             const zoomIn = () => {
-                location.value = {zoom: 13, duration: 2000, easing: 'ease-in-out'};
+                location.value = {
+                    zoom: map.zoom + 1,
+                    duration: 2000,
+                    easing: 'ease-in-out'
+                };
                 visibleContextMenu.value = false;
             };
 
             const zoomOut = () => {
-                location.value = {zoom: 8, duration: 2000, easing: 'ease-in-out'};
+                location.value = {
+                    zoom: map.zoom - 1,
+                    duration: 2000,
+                    easing: 'ease-in-out'
+                };
                 visibleContextMenu.value = false;
             };
 
@@ -79,7 +89,8 @@ async function main() {
                 zoomOut,
                 zoomIn,
                 onActionStart,
-                onContextMenu
+                onContextMenu,
+                MARKER_LOCATION
             };
         },
         template: `
@@ -91,7 +102,7 @@ async function main() {
                 <YMapContextMenu :visible="visibleContextMenu" :screenCoordinates="screenCoordinates">
                     <YMapContextMenuItem text="Zoom in" :visible="true" :onClick="zoomIn" />
                     <YMapContextMenuItem text="Zoom out" :visible="true" :onClick="zoomOut" />
-                    <YMapContextMenuItem text="Center by it" :visible="true" :onClick="centerByIt" :disabled="true" />
+                    <YMapContextMenuItem text="Center by it" :visible="true" :onClick="centerByIt" />
                     <YMapContextMenuItem
                         text="Пункт для маркера"
                         :visible="visibleMarkerItem"
@@ -99,6 +110,8 @@ async function main() {
                         :onClick="clickOnMarker"
                     />
                 </YMapContextMenu>
+
+                <YMapDefaultMarker :coordinates="MARKER_LOCATION" iconName="fallback" size="normal" />
 
                 <YMapListener :onContextMenu="onContextMenu" :onActionStart="onActionStart" />
             </YMap>`

@@ -54,3 +54,17 @@
 .ymaps3--context-menu-item_visible {
     display: flex;
 }
+
+.ymaps3--context-menu-item-icon {
+    width: 16px;
+    height: 16px;
+}
+
+.ymaps3--context-menu-item-icon_end {
+    justify-content: space-between;
+    flex-direction: row-reverse;
+}
+
+.ymaps3--context-menu-item-icon_start {
+    flex-direction: row;
+}

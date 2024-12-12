@@ -1,5 +1,5 @@
 import type {BehaviorMapEventHandler, DomEventHandler, LngLat} from '@yandex/ymaps3-types';
-import {LOCATION} from '../common';
+import {LOCATION, MARKER_LOCATION} from '../common';
 
 window.map = null;
 
@@ -8,12 +8,12 @@ async function main() {
     const [ymaps3React] = await Promise.all([ymaps3.import('@yandex/ymaps3-reactify'), ymaps3.ready]);
     const reactify = ymaps3React.reactify.bindTo(React, ReactDOM);
 
-    const {YMap, YMapDefaultSchemeLayer, YMapDefaultFeaturesLayer, YMapControls, YMapListener} =
-        reactify.module(ymaps3);
+    const {YMap, YMapDefaultSchemeLayer, YMapDefaultFeaturesLayer, YMapListener} = reactify.module(ymaps3);
 
     const {useState} = React;
 
     const {YMapContextMenu, YMapContextMenuItem} = reactify.module(await ymaps3.import('ymaps3-context-menu'));
+    const {YMapDefaultMarker} = reactify.module(await ymaps3.import('@yandex/ymaps3-default-ui-theme'));
 
     const App = () => {
         const [location, setLocation] = useState(LOCATION);
@@ -23,7 +23,7 @@ async function main() {
         const [contextMenuLngLat, setContextMenuLngLat] = useState<LngLat>();
 
         const onContextMenu: DomEventHandler = (object, event) => {
-            if (object && object.entity instanceof ymaps3.YMapMarker) {
+            if (object && object.type === 'marker') {
                 setVisibleMarkerItem(true);
             } else {
                 setVisibleMarkerItem(false);
@@ -67,7 +67,7 @@ async function main() {
                 <YMapContextMenu visible={visibleContextMenu} screenCoordinates={screenCoordinates}>
                     <YMapContextMenuItem text="Zoom in" visible={true} onClick={zoomIn} />
                     <YMapContextMenuItem text="Zoom out" visible={true} onClick={zoomOut} />
-                    <YMapContextMenuItem text="Center by it" visible={true} onClick={centerByIt} disabled />
+                    <YMapContextMenuItem text="Center by it" visible={true} onClick={centerByIt} />
                     <YMapContextMenuItem
                         text="Пункт для маркера"
                         visible={visibleMarkerItem}
@@ -75,6 +75,8 @@ async function main() {
                         onClick={clickOnMarker}
                     />
                 </YMapContextMenu>
+
+                <YMapDefaultMarker iconName="fallback" size="normal" coordinates={MARKER_LOCATION} />
 
                 <YMapListener onContextMenu={onContextMenu} onActionStart={onActionStart} />
             </YMap>

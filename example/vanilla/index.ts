@@ -1,5 +1,5 @@
 import type {LngLat} from '@yandex/ymaps3-types';
-import {LOCATION} from '../common';
+import {LOCATION, MARKER_LOCATION} from '../common';
 window.map = null;
 
 main();
@@ -8,6 +8,7 @@ async function main() {
     const {YMap, YMapDefaultSchemeLayer, YMapDefaultFeaturesLayer, YMapListener} = ymaps3;
 
     const {YMapContextMenu, YMapContextMenuItem} = await ymaps3.import('ymaps3-context-menu');
+    const {YMapDefaultMarker} = await ymaps3.import('@yandex/ymaps3-default-ui-theme');
 
     let zoom = 13;
     let contextMenuLngLat: LngLat = null;
@@ -66,12 +67,22 @@ async function main() {
         visible: false,
         order: 1,
         onClick: () => {
+            contextMenu.update({visible: false});
             markerMenuItem.update({visible: false});
+            alert('click on marker!');
         }
     });
     contextMenu.addChild(markerMenuItem);
 
     map.addChild(contextMenu);
+
+    map.addChild(
+        new YMapDefaultMarker({
+            coordinates: MARKER_LOCATION,
+            iconName: 'fallback',
+            size: 'normal'
+        })
+    );
 
     const listener = new YMapListener({
         onContextMenu: (object, event) => {

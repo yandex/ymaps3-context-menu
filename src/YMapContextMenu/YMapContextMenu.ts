@@ -1,4 +1,3 @@
-import {YMapControl} from '@yandex/ymaps3-types';
 import {CustomVuefyOptions} from '@yandex/ymaps3-types/modules/vuefy';
 import './index.css';
 
@@ -11,13 +10,13 @@ type Position =
     | `${HorizontalPosition} ${VerticalPosition}`;
 
 export interface YMapContextMenuProps {
-    /** Показывает или скрывает контекстное меню. */
+    /** Shows or hides the context menu. */
     visible: boolean;
-    /** Координаты экрана, в которых должно отображаться контекстное меню. */
+    /** Screen coordinates where the context menu should appear. */
     screenCoordinates: [number, number];
-    /** Ширина контекстного меню в пикселях (по умолчанию 240px). */
+    /** Width of the context menu in pixels (default is 240px). */
     width?: number;
-    /** Позиция контекстного меню относительно указателя (по умолчанию позиция bottom right). */
+    /** Position of the context menu relative to the pointer (default is bottom right). */
     position?: Position;
 }
 
@@ -31,7 +30,9 @@ const defaultMenuProps: YMapContextMenuProps = Object.freeze({
 type DefaultMenuProps = typeof defaultMenuProps;
 
 export class YMapContextMenu extends ymaps3.YMapGroupEntity<YMapContextMenuProps, DefaultMenuProps> {
-    static [ymaps3.optionsKeyVuefy]: CustomVuefyOptions<YMapContextMenu>;
+    static [ymaps3.optionsKeyVuefy]: CustomVuefyOptions<YMapContextMenu> = {
+        props: ['visible', 'screenCoordinates', 'width', 'position']
+    };
     static defaultProps = defaultMenuProps;
 
     private _element: HTMLDivElement;
@@ -45,7 +46,7 @@ export class YMapContextMenu extends ymaps3.YMapGroupEntity<YMapContextMenuProps
         this._element = document.createElement('div');
         this._element.classList.add('ymaps3--context-menu');
         this._element.style.width = `${this._props.width}px`;
-        this._detachDom = ymaps3.useDomContext(this, this._element, null);
+        this._detachDom = ymaps3.useDomContext(this, this._element, this._element);
     }
 
     private _getPositionCoordinates(screenCoordinates: [number, number], position: Position, x: number, y: number) {
@@ -124,33 +125,19 @@ export class YMapContextMenu extends ymaps3.YMapGroupEntity<YMapContextMenuProps
 }
 
 export interface YMapContextMenuItemProps {
-    /**
-     * Показывает или скрывает пункт контекстного меню.
-     */
+    /** Shows or hides the context menu item. */
     visible: boolean;
-    /**
-     * Текст пункта меню
-     */
+    /** Text of the menu item. */
     text: string;
-    /**
-     * Ссылка на иконку или HTML элемент с иконкой для пункта меню (optional).
-     */
+    /** Reference to an icon or an HTML element with an icon for the menu item (optional). */
     icon?: string | HTMLElement;
-    /**
-     * Позиция иконки (по умолчанию "start")
-     */
+    /** Position of the icon (default is "start"). */
     iconPosition?: 'start' | 'end';
-    /**
-     * Callback функция для обработки клика по пункту меню
-     */
+    /** Callback function to handle a click on the menu item. */
     onClick: () => void;
-    /**
-     * Флаг, что пункт меню не активен (по умолчанию false)
-     */
+    /** Flag indicating whether the menu item is disabled (default is false). */
     disabled?: boolean;
-    /**
-     * Устанавливает порядок размещения пункта в списке (по умолчанию 0).
-     */
+    /** Sets the order of the menu item in the list (default is 0). */
     order?: number;
 }
 
@@ -166,61 +153,72 @@ const defaultMenuItemProps: YMapContextMenuItemProps = Object.freeze({
 type DefaultMenuItemProps = typeof defaultMenuProps;
 
 export class YMapContextMenuItem extends ymaps3.YMapComplexEntity<YMapContextMenuItemProps, DefaultMenuItemProps> {
-    static [ymaps3.optionsKeyVuefy]: CustomVuefyOptions<YMapContextMenuItem>;
+    static [ymaps3.optionsKeyVuefy]: CustomVuefyOptions<YMapContextMenuItem> = {
+        props: ['visible', 'text', 'iconPosition', 'onClick', 'disabled', 'order']
+    };
     static defaultProps = defaultMenuItemProps;
 
     public _element: HTMLButtonElement;
     private _detachDom?: () => void;
 
-    private _createElement() {
-        const contextMenuItemHtmlElement = document.createElement('button');
-        contextMenuItemHtmlElement.classList.add('ymaps3--context-menu-item');
-        contextMenuItemHtmlElement.type = 'button';
-        contextMenuItemHtmlElement.onclick = this._props.onClick;
-        contextMenuItemHtmlElement.disabled = this._props.disabled;
-        contextMenuItemHtmlElement.style.order = String(this._props.order);
-
-        if (this._props.visible) {
-            contextMenuItemHtmlElement.classList.add('ymaps3--context-menu-item_visible');
+    private _createOrUpdateElement(element: HTMLButtonElement, props: YMapContextMenuItemProps) {
+        if (!element.classList.contains('ymaps3--context-menu-item')) {
+            element.classList.add('ymaps3--context-menu-item');
         }
+        element.type = 'button';
+        element.onclick = props.onClick;
+        element.disabled = props.disabled;
+        element.style.order = String(props.order);
 
-        if (this._props.icon) {
-            const iconBlock = document.createElement('div');
-            if (typeof this._props.icon === 'string') {
-                const img = document.createElement('img');
-                img.src = this._props.icon;
-                img.alt = 'icon';
-                img.style.width = '24px';
-                img.style.height = '24px';
-                iconBlock.appendChild(img);
-            } else if (this._props.icon instanceof Element) {
-                iconBlock.appendChild(this._props.icon);
-            }
-
-            const textBlock = document.createElement('div');
-            textBlock.innerText = this._props.text;
-            if (this._props.iconPosition === 'end') {
-                contextMenuItemHtmlElement.appendChild(iconBlock);
-                contextMenuItemHtmlElement.appendChild(textBlock);
-            } else {
-                contextMenuItemHtmlElement.appendChild(textBlock);
-                contextMenuItemHtmlElement.appendChild(iconBlock);
-            }
+        if (props.visible) {
+            element.classList.add('ymaps3--context-menu-item_visible');
         } else {
-            contextMenuItemHtmlElement.innerText = this._props.text;
+            element.classList.remove('ymaps3--context-menu-item_visible');
         }
 
-        return contextMenuItemHtmlElement;
+        element.childNodes.forEach((child) => {
+            element.removeChild(child);
+        });
+
+        const iconBlock = document.createElement('div');
+        if (typeof props.icon === 'string') {
+            const img = document.createElement('img');
+            img.classList.add('ymaps3--context-menu-item-icon');
+            img.src = props.icon;
+            img.alt = 'icon';
+            iconBlock.appendChild(img);
+        } else if (props.icon instanceof Element) {
+            iconBlock.appendChild(props.icon);
+        }
+
+        const textBlock = document.createElement('div');
+        textBlock.innerText = props.text;
+
+        if (props.icon) {
+            element.appendChild(iconBlock);
+        }
+        element.appendChild(textBlock);
+
+        if (props.iconPosition === 'start') {
+            element.classList.add('ymaps3--context-menu-item-icon_start');
+        } else {
+            element.classList.add('ymaps3--context-menu-item-icon_end');
+        }
+
+        return element;
     }
 
-    protected _onUpdate(props: Partial<YMapContextMenuItemProps>): void {
-        if (props.disabled !== undefined) {
-            this._element.disabled = props.disabled;
-        }
+    protected _onUpdate(props: Partial<YMapContextMenuItemProps>, oldProps: YMapContextMenuItemProps): void {
+        const mergedProps = {
+            ...oldProps,
+            ...props
+        };
+        this._createOrUpdateElement(this._element, mergedProps);
     }
 
     protected _onAttach() {
-        this._element = this._createElement();
+        const contextMenuItemHtmlElement = document.createElement('button');
+        this._element = this._createOrUpdateElement(contextMenuItemHtmlElement, this._props);
         this._detachDom = ymaps3.useDomContext(this, this._element, null);
     }
 
