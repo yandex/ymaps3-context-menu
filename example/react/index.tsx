@@ -61,20 +61,21 @@ async function main() {
         return (
             <YMap location={location}>
                 <YMapDefaultSchemeLayer />
+
                 <YMapDefaultFeaturesLayer />
-                <YMapControls>
-                    <YMapContextMenu visible={visibleContextMenu} screenCoordinates={screenCoordinates}>
-                        <YMapContextMenuItem text="Zoom in" visible={true} onClick={zoomIn} />
-                        <YMapContextMenuItem text="Zoom out" visible={true} onClick={zoomOut} />
-                        <YMapContextMenuItem text="Center by it" visible={true} onClick={centerByIt} disabled />
-                        <YMapContextMenuItem
-                            text="Пункт для маркера"
-                            visible={visibleMarkerItem}
-                            order={1}
-                            onClick={clickOnMarker}
-                        />
-                    </YMapContextMenu>
-                </YMapControls>
+
+                <YMapContextMenu visible={visibleContextMenu} screenCoordinates={screenCoordinates}>
+                    <YMapContextMenuItem text="Zoom in" visible={true} onClick={zoomIn} />
+                    <YMapContextMenuItem text="Zoom out" visible={true} onClick={zoomOut} />
+                    <YMapContextMenuItem text="Center by it" visible={true} onClick={centerByIt} disabled />
+                    <YMapContextMenuItem
+                        text="Пункт для маркера"
+                        visible={visibleMarkerItem}
+                        order={1}
+                        onClick={clickOnMarker}
+                    />
+                </YMapContextMenu>
+
                 <YMapListener onContextMenu={onContextMenu} onActionStart={onActionStart} />
             </YMap>
         );

@@ -34,8 +34,8 @@ export class YMapContextMenu extends ymaps3.YMapGroupEntity<YMapContextMenuProps
     static [ymaps3.optionsKeyVuefy]: CustomVuefyOptions<YMapContextMenu>;
     static defaultProps = defaultMenuProps;
 
-    private _control: YMapControl;
     private _element: HTMLDivElement;
+    private _detachDom: () => void;
 
     constructor(props: YMapContextMenuProps) {
         super(props, {container: true});
@@ -45,9 +45,7 @@ export class YMapContextMenu extends ymaps3.YMapGroupEntity<YMapContextMenuProps
         this._element = document.createElement('div');
         this._element.classList.add('ymaps3--context-menu');
         this._element.style.width = `${this._props.width}px`;
-
-        this._control = new ymaps3.YMapControl({transparent: true}, this._element);
-        this.addChild(this._control);
+        this._detachDom = ymaps3.useDomContext(this, this._element, null);
     }
 
     private _getPositionCoordinates(screenCoordinates: [number, number], position: Position, x: number, y: number) {
@@ -119,7 +117,9 @@ export class YMapContextMenu extends ymaps3.YMapGroupEntity<YMapContextMenuProps
     }
 
     protected _onDetach() {
-        this.removeChild(this._control);
+        this._detachDom?.();
+        this._detachDom = null;
+        this._element = null;
     }
 }
 
