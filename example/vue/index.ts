@@ -52,7 +52,7 @@ async function main() {
             const zoomIn = () => {
                 location.value = {
                     zoom: map.zoom + 1,
-                    duration: 2000,
+                    duration: 400,
                     easing: 'ease-in-out'
                 };
                 visibleContextMenu.value = false;
@@ -61,14 +61,14 @@ async function main() {
             const zoomOut = () => {
                 location.value = {
                     zoom: map.zoom - 1,
-                    duration: 2000,
+                    duration: 600,
                     easing: 'ease-in-out'
                 };
                 visibleContextMenu.value = false;
             };
 
             const centerByIt = () => {
-                location.value = {center: contextMenuLngLat.value, duration: 2000, easing: 'ease-in-out'};
+                location.value = {center: contextMenuLngLat.value, duration: 500, easing: 'ease-in-out'};
                 visibleContextMenu.value = false;
             };
 

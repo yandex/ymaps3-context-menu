@@ -1,4 +1,4 @@
-import type {BehaviorMapEventHandler, DomEventHandler, LngLat} from '@yandex/ymaps3-types';
+import type {BehaviorMapEventHandler, DomEventHandler, LngLat, YMapZoomLocation} from '@yandex/ymaps3-types';
 import {LOCATION, MARKER_LOCATION} from '../common';
 
 window.map = null;
@@ -39,17 +39,17 @@ async function main() {
         };
 
         const zoomIn = () => {
-            setLocation({zoom: 13, duration: 2000, easing: 'ease-in-out'});
+            setLocation({zoom: (location as YMapZoomLocation).zoom + 1, duration: 600, easing: 'ease-in-out'});
             setVisibleContextMenu(false);
         };
 
         const zoomOut = () => {
-            setLocation({zoom: 8, duration: 2000, easing: 'ease-in-out'});
+            setLocation({zoom: (location as YMapZoomLocation).zoom - 1, duration: 400, easing: 'ease-in-out'});
             setVisibleContextMenu(false);
         };
 
         const centerByIt = () => {
-            setLocation({center: contextMenuLngLat, duration: 2000, easing: 'ease-in-out'});
+            setLocation({center: contextMenuLngLat, duration: 500, easing: 'ease-in-out'});
             setVisibleContextMenu(false);
         };
 

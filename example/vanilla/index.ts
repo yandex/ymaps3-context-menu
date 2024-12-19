@@ -27,7 +27,7 @@ async function main() {
                 text: 'Zoom in',
                 visible: true,
                 onClick: () => {
-                    map.update({location: {zoom: zoom + 1, duration: 2000, easing: 'ease-in-out'}});
+                    map.update({location: {zoom: zoom + 1, duration: 500, easing: 'ease-in-out'}});
                     markerMenuItem.update({visible: false});
                     contextMenu.update({
                         visible: false
@@ -40,7 +40,7 @@ async function main() {
                 text: 'Zoom out',
                 visible: true,
                 onClick: () => {
-                    map.update({location: {zoom: zoom - 1, duration: 2000, easing: 'ease-in-out'}});
+                    map.update({location: {zoom: zoom - 1, duration: 600, easing: 'ease-in-out'}});
                     markerMenuItem.update({visible: false});
                     contextMenu.update({
                         visible: false
@@ -53,7 +53,7 @@ async function main() {
                 text: 'Center by it',
                 visible: true,
                 onClick: () => {
-                    map.setLocation({center: contextMenuLngLat, duration: 2000, easing: 'ease-in-out'});
+                    map.setLocation({center: contextMenuLngLat, duration: 400, easing: 'ease-in-out'});
                     markerMenuItem.update({visible: false});
                     contextMenu.update({
                         visible: false

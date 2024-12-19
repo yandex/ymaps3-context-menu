@@ -58,13 +58,10 @@
 .ymaps3--context-menu-item-icon {
     width: 16px;
     height: 16px;
+    flex-direction: row;
 }
 
 .ymaps3--context-menu-item-icon_end {
     justify-content: space-between;
     flex-direction: row-reverse;
-}
-
-.ymaps3--context-menu-item-icon_start {
-    flex-direction: row;
 }

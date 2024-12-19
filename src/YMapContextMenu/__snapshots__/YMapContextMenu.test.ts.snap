@@ -65,8 +65,24 @@ exports[`YMap smoke test should make map 1`] = `
     {
       "attributes": {
         "class": "ymaps3--context-menu",
-        "style": "width: 290px;",
+        "style": "width: 240px; left: 200px; top: 200px;",
       },
+      "children": [
+        {
+          "attributes": {
+            "class": "ymaps3--context-menu-item ymaps3--context-menu-item_visible",
+            "style": "order: 0;",
+            "type": "button",
+          },
+          "children": [
+            {
+              "attributes": {},
+              "nodeName": "div",
+            },
+          ],
+          "nodeName": "button",
+        },
+      ],
       "nodeName": "div",
     },
     {

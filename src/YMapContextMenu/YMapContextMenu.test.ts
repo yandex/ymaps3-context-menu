@@ -1,5 +1,5 @@
-import type {LngLatBounds, YMap} from '@yandex/ymaps3-types';
-import {YMapContextMenu} from './YMapContextMenu';
+import type {LngLatBounds, YMap, YMapComplexEntity, YMapGroupEntity} from '@yandex/ymaps3-types';
+import {YMapContextMenu, YMapContextMenuItem} from './YMapContextMenu';
 
 describe('YMap smoke test', () => {
     const BOUNDS: LngLatBounds = [
@@ -9,28 +9,69 @@ describe('YMap smoke test', () => {
 
     const LOCATION = {bounds: BOUNDS};
 
-    let container: HTMLElement, map: YMap;
+    let container: HTMLElement, map: YMap, contextMenu: YMapGroupEntity<{}>, contextMenuItem: YMapComplexEntity<{}>;
     beforeEach(() => {
         container = document.createElement('div');
         Object.assign(container.style, {width: `643px`, height: `856px`});
         document.body.appendChild(container);
-        map = new ymaps3.YMap(container, {location: LOCATION}, [new ymaps3.YMapDefaultSchemeLayer({})]);
+        contextMenu = new YMapContextMenu({
+            visible: false,
+            screenCoordinates: [200, 200]
+        });
+        contextMenuItem = new YMapContextMenuItem({
+            text: 'Center by it',
+            visible: true,
+            onClick: () => {
+                contextMenuItem.update({visible: false});
+            }
+        });
+        contextMenu.addChild(contextMenuItem);
+        map = new ymaps3.YMap(container, {location: LOCATION}, [new ymaps3.YMapDefaultSchemeLayer({}), contextMenu]);
     });
 
     afterEach(() => {
         map.destroy();
         container.remove();
+        contextMenu.removeChild(contextMenuItem);
     });
 
     it('should make map', () => {
-        map.addChild(
-            new YMapContextMenu({
-                visible: false,
-                screenCoordinates: [0, 0]
-            })
-        );
-
         const tree = domToJson(map.container);
         expect(tree).toMatchSnapshot();
+    });
+
+    it('should make context menu visible', () => {
+        contextMenu.update({visible: true});
+        const block = document.querySelector('.ymaps3--context-menu_visible');
+        expect(block).not.toBeNull();
+    });
+
+    it('should make context menu invisible', () => {
+        contextMenu.update({visible: false});
+        const block = document.querySelector('.ymaps3--context-menu_visible');
+        expect(block).toBeNull();
+    });
+
+    it('should make context item menu visible', () => {
+        const block = document.querySelector('.ymaps3--context-menu-item_visible');
+        expect(block).not.toBeNull();
+    });
+
+    it('should make context item menu invisible', () => {
+        contextMenuItem.update({visible: false});
+        const block = document.querySelector('.ymaps3--context-menu-item_visible');
+        expect(block).toBeNull();
+    });
+
+    it('should change context menu coordinates', () => {
+        const blockBefore = document.querySelector('.ymaps3--context-menu');
+        const blockStyleBefore = window.getComputedStyle(blockBefore);
+
+        contextMenu.update({screenCoordinates: [400, 400]});
+
+        const blockAfter = document.querySelector('.ymaps3--context-menu');
+        const blockStyleAfter = window.getComputedStyle(blockAfter);
+        expect(blockStyleBefore.left).not.toEqual(blockStyleAfter.left);
+        expect(blockStyleBefore.top).not.toEqual(blockStyleAfter.top);
     });
 });
