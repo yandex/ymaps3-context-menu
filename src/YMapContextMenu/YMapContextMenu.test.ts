@@ -1,5 +1,6 @@
 import type {LngLatBounds, YMap, YMapComplexEntity, YMapGroupEntity} from '@yandex/ymaps3-types';
-import {YMapContextMenu, YMapContextMenuItem} from './YMapContextMenu';
+import {YMapContextMenu} from './YMapContextMenu';
+import {YMapContextMenuItem} from './YMapContextMenuItem';
 
 describe('YMap smoke test', () => {
     const BOUNDS: LngLatBounds = [
