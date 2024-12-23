@@ -28,7 +28,7 @@ main();
 async function main() {
   await ymaps3.ready;
   const {YMapContextMenu, YMapContextMenuItem} = await import('ymaps3-context-menu');
-  map = new YMap(document.getElementById('app'), {location: {bounds: [ [ 54.58311, 25.9985 ], [ 56.30248, 24.47889 ] ]}});
+  map = new YMap(document.getElementById('app'), {location: LOCATION});
 
   map.addChild(new YMapDefaultSchemeLayer({}));
   map.addChild(new YMapDefaultFeaturesLayer({}));
@@ -43,9 +43,7 @@ async function main() {
         text: 'Click',
         visible: true,
         onClick: () => {
-          markerMenuItem.update({visible: false});
           contextMenu.update({visible: false});
-          alert('click!')
         }
       })
     );
@@ -63,6 +61,75 @@ async function main() {
     }
   });
   map.addChild(listener);
+}
+```
+
+```tsx
+main();
+async function main() {
+    const [ymaps3React] = await Promise.all([ymaps3.import('@yandex/ymaps3-reactify'), ymaps3.ready]);
+    const reactify = ymaps3React.reactify.bindTo(React, ReactDOM);
+
+    const {YMap, YMapDefaultSchemeLayer, YMapDefaultFeaturesLayer, YMapListener} = reactify.module(ymaps3);
+
+    const {useState} = React;
+
+    const {YMapContextMenu, YMapContextMenuItem} = reactify.module(await ymaps3.import('ymaps3-context-menu'));
+
+    const App = () => {
+        const [location, setLocation] = useState(LOCATION);
+        const [visibleContextMenu, setVisibleContextMenu] = useState(false);
+        const [screenCoordinates, setScreenCoordinates] = useState<[number, number]>();
+        const [contextMenuLngLat, setContextMenuLngLat] = useState<LngLat>();
+
+        const onContextMenu: DomEventHandler = (object, event) => {
+            setContextMenuLngLat(event.coordinates);
+            setVisibleContextMenu(true);
+            setScreenCoordinates(event.screenCoordinates);
+        };
+
+        const onActionStart: BehaviorMapEventHandler = () => {
+            setVisibleContextMenu(false);
+        };
+
+        const zoomIn = () => {
+            setLocation({zoom: (location as YMapZoomLocation).zoom + 1, duration: 600, easing: 'ease-in-out'});
+            setVisibleContextMenu(false);
+        };
+
+        const zoomOut = () => {
+            setLocation({zoom: (location as YMapZoomLocation).zoom - 1, duration: 400, easing: 'ease-in-out'});
+            setVisibleContextMenu(false);
+        };
+
+        const centerByIt = () => {
+            setLocation({center: contextMenuLngLat, duration: 500, easing: 'ease-in-out'});
+            setVisibleContextMenu(false);
+        };
+
+        return (
+            <YMap location={location}>
+                <YMapDefaultSchemeLayer />
+
+                <YMapDefaultFeaturesLayer />
+
+                <YMapContextMenu visible={visibleContextMenu} screenCoordinates={screenCoordinates}>
+                    <YMapContextMenuItem text="Zoom in" visible={true} onClick={zoomIn} />
+                    <YMapContextMenuItem text="Zoom out" visible={true} onClick={zoomOut} />
+                    <YMapContextMenuItem text="Center by it" visible={true} onClick={centerByIt} />
+                </YMapContextMenu>
+
+                <YMapListener onContextMenu={onContextMenu} onActionStart={onActionStart} />
+            </YMap>
+        );
+    };
+
+    ReactDOM.render(
+        <React.StrictMode>
+            <App />
+        </React.StrictMode>,
+        document.getElementById('app')
+    );
 }
 ```
 

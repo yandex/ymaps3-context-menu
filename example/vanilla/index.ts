@@ -63,7 +63,7 @@ async function main() {
         );
 
     const markerMenuItem = new YMapContextMenuItem({
-        text: 'Пункт для маркера',
+        text: 'Marker item',
         visible: false,
         order: 1,
         onClick: () => {

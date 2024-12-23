@@ -69,7 +69,7 @@ async function main() {
                     <YMapContextMenuItem text="Zoom out" visible={true} onClick={zoomOut} />
                     <YMapContextMenuItem text="Center by it" visible={true} onClick={centerByIt} />
                     <YMapContextMenuItem
-                        text="Пункт для маркера"
+                        text="Marker item"
                         visible={visibleMarkerItem}
                         order={1}
                         onClick={clickOnMarker}
