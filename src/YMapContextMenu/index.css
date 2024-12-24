@@ -55,6 +55,12 @@
     display: flex;
 }
 
+.ymaps3--context-menu-item-icon-element {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+
 .ymaps3--context-menu-item-icon {
     width: 16px;
     height: 16px;

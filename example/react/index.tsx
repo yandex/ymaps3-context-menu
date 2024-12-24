@@ -1,6 +1,6 @@
 import type {BehaviorMapEventHandler, DomEventHandler, LngLat, YMapZoomLocation} from '@yandex/ymaps3-types';
+import CenterByItIcon from '../centerByItIcon.svg';
 import {LOCATION, MARKER_LOCATION} from '../common';
-
 window.map = null;
 
 main();
@@ -63,11 +63,15 @@ async function main() {
                 <YMapDefaultSchemeLayer />
 
                 <YMapDefaultFeaturesLayer />
-
                 <YMapContextMenu visible={visibleContextMenu} screenCoordinates={screenCoordinates}>
-                    <YMapContextMenuItem text="Zoom in" visible={true} onClick={zoomIn} />
-                    <YMapContextMenuItem text="Zoom out" visible={true} onClick={zoomOut} />
-                    <YMapContextMenuItem text="Center by it" visible={true} onClick={centerByIt} />
+                    <YMapContextMenuItem icon="../zoomInIcon.svg" text="Zoom in" visible={true} onClick={zoomIn} />
+                    <YMapContextMenuItem icon="../zoomOutIcon.svg" text="Zoom out" visible={true} onClick={zoomOut} />
+                    <YMapContextMenuItem
+                        icon="../centerByItIcon.svg"
+                        text="Center by it"
+                        visible={true}
+                        onClick={centerByIt}
+                    />
                     <YMapContextMenuItem
                         text="Marker item"
                         visible={visibleMarkerItem}

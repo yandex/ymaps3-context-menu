@@ -26,6 +26,7 @@ async function main() {
             new YMapContextMenuItem({
                 text: 'Zoom in',
                 visible: true,
+                icon: '../zoomInIcon.svg',
                 onClick: () => {
                     map.update({location: {zoom: zoom + 1, duration: 500, easing: 'ease-in-out'}});
                     markerMenuItem.update({visible: false});
@@ -39,6 +40,7 @@ async function main() {
             new YMapContextMenuItem({
                 text: 'Zoom out',
                 visible: true,
+                icon: '../zoomOutIcon.svg',
                 onClick: () => {
                     map.update({location: {zoom: zoom - 1, duration: 600, easing: 'ease-in-out'}});
                     markerMenuItem.update({visible: false});
@@ -52,6 +54,7 @@ async function main() {
             new YMapContextMenuItem({
                 text: 'Center by it',
                 visible: true,
+                icon: '../centerByItIcon.svg',
                 onClick: () => {
                     map.setLocation({center: contextMenuLngLat, duration: 400, easing: 'ease-in-out'});
                     markerMenuItem.update({visible: false});

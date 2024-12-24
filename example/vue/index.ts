@@ -100,10 +100,11 @@ async function main() {
                 <YMapDefaultFeaturesLayer />
 
                 <YMapContextMenu :visible="visibleContextMenu" :screenCoordinates="screenCoordinates">
-                    <YMapContextMenuItem text="Zoom in" :visible="true" :onClick="zoomIn" />
-                    <YMapContextMenuItem text="Zoom out" :visible="true" :onClick="zoomOut" />
+                    <YMapContextMenuItem icon="../zoomInIcon.svg" text="Zoom in" :visible="true" :onClick="zoomIn" />
+                    <YMapContextMenuItem icon="../zoomOutIcon.svg" text="Zoom out" :visible="true" :onClick="zoomOut" />
                     <YMapContextMenuItem text="Center by it" :visible="true" :onClick="centerByIt" />
                     <YMapContextMenuItem
+                        icon="../centerByItIcon.svg"
                         text="Marker item"
                         :visible="visibleMarkerItem"
                         :order="1"

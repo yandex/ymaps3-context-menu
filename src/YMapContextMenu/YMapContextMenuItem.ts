@@ -70,6 +70,7 @@ export class YMapContextMenuItem extends ymaps3.YMapComplexEntity<YMapContextMen
 
     private _createIconBlock() {
         const iconBlock = document.createElement('div');
+        iconBlock.classList.add('ymaps3--context-menu-item-icon-element');
         if (typeof this._props.icon === 'string') {
             const img = document.createElement('img');
             img.classList.add('ymaps3--context-menu-item-icon');

@@ -133,6 +133,13 @@ async function main() {
 }
 ```
 
+You also need to import css styles into your project:
+
+```css
+/* index.css */
+@import '@yandex/ymaps3-context-menu/dist/esm/index.css';
+```
+
 ### Usage without npm
 
 You can use CDN with module loading handler in JS API on your page.
