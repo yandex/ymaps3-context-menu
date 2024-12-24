@@ -1,2 +1,2 @@
-export {YMapContextMenu} from './YMapContextMenu';
-export {YMapContextMenuItem} from './YMapContextMenuItem';
+export {YMapContextMenu, YMapContextMenuProps} from './YMapContextMenu';
+export {YMapContextMenuItem, YMapContextMenuItemProps} from './YMapContextMenuItem';
