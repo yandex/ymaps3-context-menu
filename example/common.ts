@@ -19,4 +19,7 @@ ymaps3.ready.then(() => {
 });
 
 export const MARKER_LOCATION: LngLat = [158.746, 53.0238];
-export const LOCATION: YMapLocationRequest = {center: [158.746, 53.0238], zoom: 13};
+export const LOCATION: YMapLocationRequest = {
+    center: [37.629, 55.7521],
+    zoom: 13
+};

@@ -41,9 +41,7 @@ export class YMapContextMenu extends ymaps3.YMapGroupEntity<YMapContextMenuProps
     }
 
     private _updatePositionCoordinates() {
-        const {screenCoordinates, position} = this._props;
-        const {x, y} = this.root.container.getBoundingClientRect();
-        const {top, left} = this._getPositionCoordinates(screenCoordinates, position, x, y);
+        const {top, left} = this._getPositionCoordinates();
         this._element.style.left = `${left}px`;
         this._element.style.top = `${top}px`;
     }
@@ -52,6 +50,7 @@ export class YMapContextMenu extends ymaps3.YMapGroupEntity<YMapContextMenuProps
         const element = document.createElement('div');
         element.classList.add('ymaps3--context-menu');
         element.style.width = `${this._props.width}px`;
+        element.classList.toggle('ymaps3--context-menu_visible', this._props.visible);
 
         return element;
     }
@@ -61,12 +60,10 @@ export class YMapContextMenu extends ymaps3.YMapGroupEntity<YMapContextMenuProps
         this._element.style.width = `${this._props.width}px`;
     }
 
-    private _getPositionCoordinates(
-        screenCoordinates: [number, number],
-        position: Position,
-        x: number,
-        y: number
-    ): {top: number; left: number} {
+    private _getPositionCoordinates(): {top: number; left: number} {
+        const {screenCoordinates, position} = this._props;
+        const {x, y} = this.root.container.getBoundingClientRect();
+
         if (!screenCoordinates) {
             return {top: 0, left: 0};
         }

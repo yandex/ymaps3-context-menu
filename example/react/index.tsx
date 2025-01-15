@@ -23,7 +23,7 @@ async function main() {
         const [contextMenuLngLat, setContextMenuLngLat] = useState<LngLat>();
 
         const onContextMenu: DomEventHandler = (object, event) => {
-            if (object && object.type === 'marker') {
+            if (object && object.entity instanceof ymaps3.YMapMarker) {
                 setVisibleMarkerItem(true);
             } else {
                 setVisibleMarkerItem(false);

@@ -19,29 +19,6 @@ exports[`YMap smoke test should make map 1`] = `
           "children": [
             {
               "attributes": {},
-              "children": [
-                {
-                  "attributes": {
-                    "class": "ymaps3x0--layer ymaps3x0--tile-layer",
-                    "style": "perspective: 1597.3177456394797px; opacity: 1;",
-                  },
-                  "children": [
-                    {
-                      "attributes": {
-                        "class": "ymaps3x0--tile-layer__container",
-                        "data-z": "9",
-                        "style": "transform: 
-            rotateX(0.00000rad)
-            translate3d(0px, 0px, 0px)
-            rotateZ(0.00000rad) translate3d(0px, 0px, 0px)
-        ;",
-                      },
-                      "nodeName": "ymaps",
-                    },
-                  ],
-                  "nodeName": "ymaps",
-                },
-              ],
               "nodeName": "ymaps",
             },
           ],
