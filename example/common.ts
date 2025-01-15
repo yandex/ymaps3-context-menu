@@ -1,4 +1,4 @@
-import type {YMapLocationRequest, LngLatBounds} from '@yandex/ymaps3-types';
+import type {LngLat, YMapLocationRequest} from '@yandex/ymaps3-types';
 
 ymaps3.import.loaders.unshift(async (pkg) => {
     if (!pkg.startsWith('ymaps3-context-menu')) {
@@ -14,9 +14,12 @@ ymaps3.import.loaders.unshift(async (pkg) => {
     return window['ymaps3-context-menu'];
 });
 
-const BOUNDS: LngLatBounds = [
-    [54.58311, 25.9985],
-    [56.30248, 24.47889]
-];
+ymaps3.ready.then(() => {
+    ymaps3.import.registerCdn('https://cdn.jsdelivr.net/npm/{package}', '@yandex/ymaps3-default-ui-theme@0.0');
+});
 
-export const LOCATION: YMapLocationRequest = {bounds: BOUNDS};
+export const MARKER_LOCATION: LngLat = [158.746, 53.0238];
+export const LOCATION: YMapLocationRequest = {
+    center: [37.629, 55.7521],
+    zoom: 13
+};

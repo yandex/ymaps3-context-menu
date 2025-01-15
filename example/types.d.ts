@@ -1,3 +1,5 @@
+import '@yandex/ymaps3-default-ui-theme';
+import '@yandex/ymaps3-types';
 import {YMap} from '@yandex/ymaps3-types';
 
 declare global {

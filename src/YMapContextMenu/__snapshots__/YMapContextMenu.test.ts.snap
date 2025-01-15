@@ -19,29 +19,6 @@ exports[`YMap smoke test should make map 1`] = `
           "children": [
             {
               "attributes": {},
-              "children": [
-                {
-                  "attributes": {
-                    "class": "ymaps3x0--layer ymaps3x0--tile-layer",
-                    "style": "perspective: 1597.3177456394797px; opacity: 1;",
-                  },
-                  "children": [
-                    {
-                      "attributes": {
-                        "class": "ymaps3x0--tile-layer__container",
-                        "data-z": "9",
-                        "style": "transform: 
-            rotateX(0.00000rad)
-            translate3d(0px, 0px, 0px)
-            rotateZ(0.00000rad) translate3d(0px, 0px, 0px)
-        ;",
-                      },
-                      "nodeName": "ymaps",
-                    },
-                  ],
-                  "nodeName": "ymaps",
-                },
-              ],
               "nodeName": "ymaps",
             },
           ],
@@ -64,29 +41,26 @@ exports[`YMap smoke test should make map 1`] = `
     },
     {
       "attributes": {
-        "class": "ymaps3x0--controls ymaps3x0--controls_bottom ymaps3x0--controls_center ymaps3x0--controls_horizontal",
+        "class": "ymaps3--context-menu",
+        "style": "width: 240px; left: 200px; top: 200px;",
       },
       "children": [
         {
           "attributes": {
-            "class": "ymaps3x0--control ymaps3x0--control__background",
+            "class": "ymaps3--context-menu-item ymaps3--context-menu-item_visible",
+            "style": "order: 0;",
+            "type": "button",
           },
           "children": [
             {
-              "attributes": {
-                "class": "ymaps3x0--button ymaps3x0--control-button",
-                "type": "button",
-              },
-              "children": [
-                "Some text",
-              ],
-              "nodeName": "button",
+              "attributes": {},
+              "nodeName": "div",
             },
           ],
-          "nodeName": "ymaps",
+          "nodeName": "button",
         },
       ],
-      "nodeName": "ymaps",
+      "nodeName": "div",
     },
     {
       "attributes": {
