@@ -1,6 +1,6 @@
 {
-    "version": "0.0.1-beta.1",
-    "name": "ymaps3-context-menu",
+    "version": "0.0.0",
+    "name": "@yandex/ymaps3-context-menu",
     "description": "Yandex Maps JS API 3.0 example ymaps3-context-menu",
     "types": "./dist/types/index.d.ts",
     "main": "./dist/esm/index.mjs",
