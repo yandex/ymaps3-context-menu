@@ -1,5 +1,5 @@
 {
-    "version": "0.0.1-beta.0",
+    "version": "0.0.1",
     "name": "@yandex/ymaps3-context-menu",
     "description": "Yandex Maps JS API 3.0 example ymaps3-context-menu",
     "types": "./dist/types/index.d.ts",
@@ -14,7 +14,7 @@
         "examples": "ymaps3-cli example --input=example --output=dist/example",
         "watch": "webpack --watch",
         "start": "webpack serve",
-        "bump": "npm version prerelease --preid=beta --no-git-tag-version && npm run bump:git",
+        "bump": "npm version patch --no-git-tag-version && npm run bump:git",
         "bump:git": "git add --all && git commit -m \"New version $npm_package_version\" && git tag $npm_package_version && git push --tags origin HEAD:main"
     },
     "devDependencies": {
