@@ -7,7 +7,7 @@ async function main() {
     await ymaps3.ready;
     const {YMap, YMapDefaultSchemeLayer, YMapDefaultFeaturesLayer, YMapListener} = ymaps3;
 
-    const {YMapContextMenu, YMapContextMenuItem} = await ymaps3.import('ymaps3-context-menu');
+    const {YMapContextMenu, YMapContextMenuItem} = await ymaps3.import('@yandex/ymaps3-context-menu');
     const {YMapDefaultMarker} = await ymaps3.import('@yandex/ymaps3-default-ui-theme');
 
     let zoom = 13;

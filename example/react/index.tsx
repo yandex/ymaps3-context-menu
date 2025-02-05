@@ -1,5 +1,4 @@
 import type {BehaviorMapEventHandler, DomEventHandler, LngLat, YMapZoomLocation} from '@yandex/ymaps3-types';
-import CenterByItIcon from '../centerByItIcon.svg';
 import {LOCATION, MARKER_LOCATION} from '../common';
 window.map = null;
 
@@ -12,7 +11,7 @@ async function main() {
 
     const {useState} = React;
 
-    const {YMapContextMenu, YMapContextMenuItem} = reactify.module(await ymaps3.import('ymaps3-context-menu'));
+    const {YMapContextMenu, YMapContextMenuItem} = reactify.module(await ymaps3.import('@yandex/ymaps3-context-menu'));
     const {YMapDefaultMarker} = reactify.module(await ymaps3.import('@yandex/ymaps3-default-ui-theme'));
 
     const App = () => {

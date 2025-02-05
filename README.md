@@ -4,8 +4,8 @@
 
 Yandex JS API package
 
-[![npm version](https://badge.fury.io/js/ymaps3-context-menu.svg)](https://badge.fury.io/js/ymaps3-context-menu)
-[![npm](https://img.shields.io/npm/dm/ymaps3-context-menu.svg)](https://www.npmjs.com/package/ymaps3-context-menu)
+[![npm version](https://badge.fury.io/js/@yandex%2Fymaps3-context-menu.svg)](https://badge.fury.io/js/@yandex%2Fymaps3-context-menu)
+[![npm](https://img.shields.io/npm/dm/%40yandex%2Fymaps3-context-menu)](https://www.npmjs.com/package/@yandex/ymaps3-context-menu)
 
 ## Props
 
@@ -18,7 +18,7 @@ The package is located in the `dist` folder:
 Recommended use `YMapContextMenu` as usual npm package:
 
 ```sh
-npm i ymaps3-context-menu
+npm install @yandex/ymaps3-context-menu
 ```
 
 and dynamic import
@@ -27,7 +27,7 @@ and dynamic import
 main();
 async function main() {
   await ymaps3.ready;
-  const {YMapContextMenu, YMapContextMenuItem} = await import('ymaps3-context-menu');
+  const {YMapContextMenu, YMapContextMenuItem} = await import('@yandex/ymaps3-context-menu');
   map = new YMap(document.getElementById('app'), {location: LOCATION});
 
   map.addChild(new YMapDefaultSchemeLayer({}));
@@ -35,18 +35,17 @@ async function main() {
 
   const contextMenu = new YMapContextMenu({
     visible: false,
-    screenCoordinates: [ 0, 0 ]
+    screenCoordinates: [0, 0]
   });
-  contextMenu
-    .addChild(
-      new YMapContextMenuItem({
-        text: 'Click',
-        visible: true,
-        onClick: () => {
-          contextMenu.update({visible: false});
-        }
-      })
-    );
+  contextMenu.addChild(
+    new YMapContextMenuItem({
+      text: 'Click',
+      visible: true,
+      onClick: () => {
+        contextMenu.update({visible: false});
+      }
+    })
+  );
   map.addChild(contextMenu);
 
   const listener = new YMapListener({
@@ -67,69 +66,69 @@ async function main() {
 ```tsx
 main();
 async function main() {
-    const [ymaps3React] = await Promise.all([ymaps3.import('@yandex/ymaps3-reactify'), ymaps3.ready]);
-    const reactify = ymaps3React.reactify.bindTo(React, ReactDOM);
+  const [ymaps3React] = await Promise.all([ymaps3.import('@yandex/ymaps3-reactify'), ymaps3.ready]);
+  const reactify = ymaps3React.reactify.bindTo(React, ReactDOM);
 
-    const {YMap, YMapDefaultSchemeLayer, YMapDefaultFeaturesLayer, YMapListener} = reactify.module(ymaps3);
+  const {YMap, YMapDefaultSchemeLayer, YMapDefaultFeaturesLayer, YMapListener} = reactify.module(ymaps3);
 
-    const {useState} = React;
+  const {useState} = React;
 
-    const {YMapContextMenu, YMapContextMenuItem} = reactify.module(await ymaps3.import('ymaps3-context-menu'));
+  const {YMapContextMenu, YMapContextMenuItem} = reactify.module(await ymaps3.import('@yandex/ymaps3-context-menu'));
 
-    const App = () => {
-        const [location, setLocation] = useState(LOCATION);
-        const [visibleContextMenu, setVisibleContextMenu] = useState(false);
-        const [screenCoordinates, setScreenCoordinates] = useState<[number, number]>();
-        const [contextMenuLngLat, setContextMenuLngLat] = useState<LngLat>();
+  const App = () => {
+    const [location, setLocation] = useState(LOCATION);
+    const [visibleContextMenu, setVisibleContextMenu] = useState(false);
+    const [screenCoordinates, setScreenCoordinates] = useState<[number, number]>();
+    const [contextMenuLngLat, setContextMenuLngLat] = useState<LngLat>();
 
-        const onContextMenu: DomEventHandler = (object, event) => {
-            setContextMenuLngLat(event.coordinates);
-            setVisibleContextMenu(true);
-            setScreenCoordinates(event.screenCoordinates);
-        };
-
-        const onActionStart: BehaviorMapEventHandler = () => {
-            setVisibleContextMenu(false);
-        };
-
-        const zoomIn = () => {
-            setLocation({zoom: (location as YMapZoomLocation).zoom + 1, duration: 600, easing: 'ease-in-out'});
-            setVisibleContextMenu(false);
-        };
-
-        const zoomOut = () => {
-            setLocation({zoom: (location as YMapZoomLocation).zoom - 1, duration: 400, easing: 'ease-in-out'});
-            setVisibleContextMenu(false);
-        };
-
-        const centerByIt = () => {
-            setLocation({center: contextMenuLngLat, duration: 500, easing: 'ease-in-out'});
-            setVisibleContextMenu(false);
-        };
-
-        return (
-            <YMap location={location}>
-                <YMapDefaultSchemeLayer />
-
-                <YMapDefaultFeaturesLayer />
-
-                <YMapContextMenu visible={visibleContextMenu} screenCoordinates={screenCoordinates}>
-                    <YMapContextMenuItem text="Zoom in" visible={true} onClick={zoomIn} />
-                    <YMapContextMenuItem text="Zoom out" visible={true} onClick={zoomOut} />
-                    <YMapContextMenuItem text="Center by it" visible={true} onClick={centerByIt} />
-                </YMapContextMenu>
-
-                <YMapListener onContextMenu={onContextMenu} onActionStart={onActionStart} />
-            </YMap>
-        );
+    const onContextMenu: DomEventHandler = (object, event) => {
+      setContextMenuLngLat(event.coordinates);
+      setVisibleContextMenu(true);
+      setScreenCoordinates(event.screenCoordinates);
     };
 
-    ReactDOM.render(
-        <React.StrictMode>
-            <App />
-        </React.StrictMode>,
-        document.getElementById('app')
+    const onActionStart: BehaviorMapEventHandler = () => {
+      setVisibleContextMenu(false);
+    };
+
+    const zoomIn = () => {
+      setLocation({zoom: (location as YMapZoomLocation).zoom + 1, duration: 600, easing: 'ease-in-out'});
+      setVisibleContextMenu(false);
+    };
+
+    const zoomOut = () => {
+      setLocation({zoom: (location as YMapZoomLocation).zoom - 1, duration: 400, easing: 'ease-in-out'});
+      setVisibleContextMenu(false);
+    };
+
+    const centerByIt = () => {
+      setLocation({center: contextMenuLngLat, duration: 500, easing: 'ease-in-out'});
+      setVisibleContextMenu(false);
+    };
+
+    return (
+      <YMap location={location}>
+        <YMapDefaultSchemeLayer />
+
+        <YMapDefaultFeaturesLayer />
+
+        <YMapContextMenu visible={visibleContextMenu} screenCoordinates={screenCoordinates}>
+          <YMapContextMenuItem text="Zoom in" visible={true} onClick={zoomIn} />
+          <YMapContextMenuItem text="Zoom out" visible={true} onClick={zoomOut} />
+          <YMapContextMenuItem text="Center by it" visible={true} onClick={centerByIt} />
+        </YMapContextMenu>
+
+        <YMapListener onContextMenu={onContextMenu} onActionStart={onActionStart} />
+      </YMap>
     );
+  };
+
+  ReactDOM.render(
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>,
+    document.getElementById('app')
+  );
 }
 ```
 
@@ -147,20 +146,20 @@ You can use CDN with module loading handler in JS API on your page.
 Just use `ymaps3.import`:
 
 ```js
-const pkg = await ymaps3.import('ymaps3-context-menu');
+const pkg = await ymaps3.import('@yandex/ymaps3-context-menu');
 ```
 
 By default `ymaps3.import` can load self modules.
 If you want also load your package, should register cdn:
 
 ```js
-ymaps3.import.registerCdn('https://cdn.jsdelivr.net/npm/{package}', 'ymaps3-context-menu@latest');
+ymaps3.import.registerCdn('https://cdn.jsdelivr.net/npm/{package}', '@yandex/ymaps3-context-menu@latest');
 ```
 
 ### YMapContextMenu props description
 
 | Name              | Type             | Default      | Description                                              |
-|:------------------|:-----------------|:-------------|:---------------------------------------------------------|
+| :---------------- | :--------------- | :----------- | :------------------------------------------------------- |
 | visible           | boolean          |              | Shows or hides the context menu.                         |
 | screenCoordinates | [number, number] |              | Screen coordinates where the context menu should appear. |
 | width             | number           | 240          | Width of the context menu in pixels.                     |
@@ -169,7 +168,7 @@ ymaps3.import.registerCdn('https://cdn.jsdelivr.net/npm/{package}', 'ymaps3-cont
 ### YMapContextMenuItem props description
 
 | Name         | Type                  | Default | Description                                                                        |
-|:-------------|:----------------------|:--------|:-----------------------------------------------------------------------------------|
+| :----------- | :-------------------- | :------ | :--------------------------------------------------------------------------------- |
 | visible      | boolean               |         | Shows or hides the context menu item.                                              |
 | text         | string                |         | Text of the menu item.                                                             |
 | icon         | string or HTMLElement |         | Reference to an icon or an HTML element with an icon for the menu item (optional). |

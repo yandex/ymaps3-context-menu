@@ -10,7 +10,7 @@ async function main() {
 
     const {YMap, YMapDefaultSchemeLayer, YMapDefaultFeaturesLayer, YMapListener} = vuefy.module(ymaps3);
 
-    const {YMapContextMenu, YMapContextMenuItem} = vuefy.module(await ymaps3.import('ymaps3-context-menu'));
+    const {YMapContextMenu, YMapContextMenuItem} = vuefy.module(await ymaps3.import('@yandex/ymaps3-context-menu'));
     const {YMapDefaultMarker} = vuefy.module(await ymaps3.import('@yandex/ymaps3-default-ui-theme'));
 
     const app = Vue.createApp({
