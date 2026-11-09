@@ -1,14 +1,7 @@
-<!--
+## Changes
 
-Thank you for submitting a pull request!
+<!-- Describe the change and link the related issue, if available. -->
 
-Here's a checklist you might find useful.
-[ ] There is an associated issue that is labelled
-  'Bug' or 'help wanted' or is in the Community milestone
-[ ] Code is up-to-date with the `main` branch
-[ ] You've successfully run `npm test` locally
-[ ] There are new or updated tests validating the change
+## Verification
 
--->
-
-Fixes #
+<!-- List the checks you ran and their results. -->
